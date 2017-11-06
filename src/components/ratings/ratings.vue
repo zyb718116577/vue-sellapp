@@ -1,10 +1,10 @@
-<template lang="html">
+<template>
     <div class="ratings">
         ratings
     </div>
 </template>
 
-<script lang="babel">
+<script type="text/ecmascript-6">
     export default {
         data () {
             return {}
@@ -12,5 +12,6 @@
     }
 </script>
 
-<style lang="">
+<style lang="stylus" type="text/stylus" rel="stylesheet/stylus">
+
 </style>
