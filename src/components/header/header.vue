@@ -58,6 +58,7 @@
 <script type="text/ecmascript-6">
     import star from '../../components/star/star'
     import title from '../../components/title/title'
+    //import goods from '../../components/goods/goods'
 
     export default {
         props: {
@@ -86,6 +87,7 @@
         components: {
             star,
             title
+            //goods
         }
     }
 </script>
