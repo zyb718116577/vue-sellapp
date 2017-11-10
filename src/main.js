@@ -3,6 +3,16 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import App from './App'
 
+// import VueLazyload
+import VueLazyload from 'vue-lazyload'
+// use options
+Vue.use(VueLazyload, {
+    preLoad: 1.3,
+    loading: '../static/img/default.jpeg',
+    error: '../static/img/default.jpeg',
+    attempt: 1
+})
+
 /*路由模块*/
 import goods from './components/goods/goods'
 import ratings from './components/ratings/ratings'

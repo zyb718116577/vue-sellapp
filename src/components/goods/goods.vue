@@ -16,7 +16,7 @@
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
                         <li v-for="food in item.foods" class="food-item border-1px">
-                            <div class="icon"><img :src="food.icon" width="57" height="57"></div>
+                            <div class="icon"><img v-lazy="food.icon" width="57" height="57"></div>
                             <div class="content">
                                 <h2 class="name">{{food.name}}</h2>
                                 <p class="desc">{{food.description}}</p>
@@ -28,20 +28,24 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cartcontrol-wrapper">
+                                    <cartcontrol :food="food"></cartcontrol>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 
 </template>
 
 <script type="text/ecmascript-6">
     import BScroll from 'better-scroll';
-    import shopcart from '../../components/shopcart/shopcart'
+    import shopcart from '../../components/shopcart/shopcart';
+    import cartcontrol from '../../components/cartcontrol/cartcontrol';
 
     export default {
         props: {
@@ -101,7 +105,9 @@
                 });
                 this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
                     //探针作用，实时监测滚动位置
-                    probeType: 3
+                    probeType: 3,
+                    // 加入购物车按钮
+                    click: true
                 });
                 //设置监听滚动位置
                 this.foodsScroll.on('scroll', (pos) => {
@@ -133,11 +139,24 @@
                     }
                 }
                 return 0;
+            },
+            /*拿到被选到的food*/
+            selectFoods() {
+                let foods = [];
+                this.goods.forEach((good)=>{
+                    good.foods.forEach((food)=>{
+                        if (food.count) {
+                            foods.push(food);
+                        }
+                    })
+                });
+                return foods;
             }
         },
 
         components: {
-            shopcart
+            shopcart,
+            cartcontrol
         }
     };
 </script>
@@ -243,5 +262,10 @@
                             text-decoration line-through
                             font-size 10px
                             color rgb(147,153,159)
+                    .cartcontrol-wrapper
+                        position absolute
+                        right 0
+                        bottom 12px
+
 
 </style>
