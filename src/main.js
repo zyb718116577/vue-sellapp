@@ -47,7 +47,10 @@ router.map({
         component: seller
     },
 })
-
+/*重定向到默认路由*/
+router.redirect({
+    '/': '/goods'
+})
 router.start(App,'#app')
 
 

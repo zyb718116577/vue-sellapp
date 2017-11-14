@@ -37,7 +37,7 @@
                 </li>
             </ul>
         </div>
-        <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+        <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 
 </template>
@@ -125,6 +125,12 @@
                     height += item.clientHeight;
                     this.listHeight.push(height);
                 }
+            },
+
+            /*小球动画函数*/
+            _drop(target,image) {
+                // 访问子组件的方法,并将target传给子组件
+                this.$refs.shopcart.drop(target,image);
             }
         },
 
@@ -157,6 +163,12 @@
         components: {
             shopcart,
             cartcontrol
+        },
+        // 事件监听 接收子组件的方法
+        events: {
+            'cart.add'(target,image) {
+                this._drop(target,image);
+            }
         }
     };
 </script>

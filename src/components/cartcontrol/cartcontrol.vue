@@ -19,9 +19,10 @@
       },
       methods: {
           addCart(event) {
-              if (!event._constructed){
+              /*if (!event._constructed){
+                  console.log(2)
                   return;
-              }
+              }*/
               if (!this.food.count) {
                   // 当给一个组件添加未知的属性时候需要用set方法，vue才会监听到它的变化
                   Vue.set(this.food,'count',1)
@@ -29,11 +30,13 @@
               } else {
                   this.food.count++;
               }
+              // 向父组件发送事件,第一个参数为事件名，第二个为参数
+              this.$dispatch('cart.add',event.target,this.food.image);
           },
           decreaseCart(event) {
-              if (!event._constructed){
+              /*if (!event._constructed){
                   return;
-              }
+              }*/
               if (this.food.count > 0) {
                   this.food.count--
               }
