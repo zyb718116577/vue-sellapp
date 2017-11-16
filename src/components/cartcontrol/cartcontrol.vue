@@ -1,11 +1,11 @@
 <template>
     <div class="cartcontrol">
-        <div @click="decreaseCart" class="cart-decrease"
+        <div @click.stop="decreaseCart" class="cart-decrease"
              v-show="food.count>0" transition="move">
             <span class="inner icon-remove_circle_outline"></span>
         </div>
         <div class="cart-count" v-show="food.count > 0">{{food.count}}</div>
-        <div class="cart-add icon-add_circle" @click="addCart"></div>
+        <div class="cart-add icon-add_circle" @click.stop="addCart"></div>
     </div>
 </template>
 
@@ -19,10 +19,9 @@
       },
       methods: {
           addCart(event) {
-              /*if (!event._constructed){
-                  console.log(2)
+              if (!event._constructed){
                   return;
-              }*/
+              }
               if (!this.food.count) {
                   // 当给一个组件添加未知的属性时候需要用set方法，vue才会监听到它的变化
                   Vue.set(this.food,'count',1)
@@ -34,9 +33,9 @@
               this.$dispatch('cart.add',event.target,this.food.image);
           },
           decreaseCart(event) {
-              /*if (!event._constructed){
+              if (!event._constructed){
                   return;
-              }*/
+              }
               if (this.food.count > 0) {
                   this.food.count--
               }

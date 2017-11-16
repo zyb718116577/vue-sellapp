@@ -22,7 +22,7 @@
                 <div class="inner inner-hook"></div>
             </div>
         </div>
-        <shoplist :select-foods="selectFoods" v-show="showShoplist"></shoplist>
+        <shoplist :select-foods="selectFoods" :show-shoplist="showShoplist" v-show="showShoplist"></shoplist>
     </div>
 </template>
 
@@ -97,7 +97,7 @@
                     }
                 }
             },
-            toggleShoplist() {
+            toggleShoplist(event) {
                 this.showShoplist = !this.showShoplist;
             }
         },
@@ -142,6 +142,12 @@
         },
         components: {
             shoplist
+        },
+        // 事件监听 接收子组件的方法
+        events: {
+            'shoplist.close'(event) {
+                this.toggleShoplist(event);
+            }
         }
     }
 </script>
@@ -241,7 +247,7 @@
                 position fixed
                 left 32px
                 bottom 22px
-                z-index 200
+                z-index 39
                 &.drop-transition
                     transition all 0.9s cubic-bezier(0.49, -0.29, .75, .41)
                     .inner
