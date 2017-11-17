@@ -52,7 +52,6 @@
           },
           // 清空购物车
           clearCartlist() {
-              console.log(2)
               this.selectFoods.forEach((item)=>{
                   item.count = 0;
               })
@@ -65,7 +64,7 @@
           showShoplist(older) {
               if (older) {
                   this.$nextTick(() => {
-                      this.initScroll()
+                      this.initScroll();
                   })
               }
           }

@@ -34,7 +34,7 @@
             </div>
             <div class="ratings-wrapper">
                 <ul class="content">
-                    <li v-for="item in showRatings" class="ratings-item" v-show="!item.empty">
+                    <li v-for="item in food.ratings" class="ratings-item" v-show="_beShow(item.rateType,item.text)">
                         <div class="top">
                             <div class="time">{{util.getLocalTime(item.rateTime)}}</div>
                             <div class="user">
@@ -61,10 +61,7 @@
     import cartcontrol from '../../components/cartcontrol/cartcontrol';
     import split from '../../components/split/split';
     import ratingselect from '../../components/ratingselect/ratingselect';
-    import util from '../../common/js/util'
 
-    const POSITIVE = 0;
-    const NEGATIVE = 1;
     const ALL = 2;
     export default {
         props: {
@@ -118,37 +115,22 @@
                     return;
                 }
                 this.selectType = selectType;
-            }
-
-        },
-
-        computed: {
-            // 获取筛选过后的评论
-            showRatings() {
-                let result = [];
-                if (this.selectType != ALL) {
-                    this.food.ratings.forEach((item)=>{
-                        if (item.rateType === this.selectType){
-                            result.push(item)
-                        }
-                    })
+                this.$nextTick(() => {
+                    this.scroll.refresh();
+                });
+            },
+            _beShow(type,text) {
+                // 只看有内容且文字为空
+                if (this.onlyContent && !text){
+                    return false;
+                }
+                // 全部
+                if (this.selectType == ALL) {
+                    return true;
                 } else {
-                    result = this.food.ratings;
+                    // type相同则返回true
+                    return type === this.selectType;
                 }
-                if (result) {
-                    if (this.onlyContent) {
-                        result.forEach((item)=>{
-                            if (item.text.length == 0){
-                                Vue.set(item,'empty',true);
-                            }
-                        })
-                    } else {
-                        result.forEach((item)=>{
-                            Vue.set(item,'empty',false);
-                        })
-                    }
-                }
-                return result;
             }
         },
 
